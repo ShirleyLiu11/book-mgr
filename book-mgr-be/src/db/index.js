@@ -1,28 +1,21 @@
+require('./Schemas/User');
+
 const mongoose = require('mongoose');
 
+const connect =   () => {
 
-const UserSchema = new mongoose.Schema({
-    nickname: String,
-    password: String,
-    age: Number,
-});
+    return new Promise((resolve) => {
+        mongoose.connect('mongodb://127.0.0.1:27017');
 
-const UserModel = mongoose.model('User', UserSchema);
+        mongoose.connection.on('open', () => {
+            console.log('succeed connect database');
 
-const connect = () => {
-    mongoose.connect('mongodb://127.0.0.1:27017');
-
-    mongoose.connection.on('open', () => {
-        console.log('succeed connect');
-
-        const user = new UserModel({
-            nickname: 'Nick',
-            password: '123456',
-            age: 12,
+            resolve();
         });
-
-        user.save();
     });
+    
 };
 
-connect();
+module.exports = {
+    connect,
+};

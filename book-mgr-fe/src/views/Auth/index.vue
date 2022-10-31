@@ -12,12 +12,25 @@
             <a-tabs >
                 <a-tab-pane key="1" tab="Login">
                     <div class="item">
-                        <a-input size="large" placeholder="Account"/>
+                        <a-input size="large" placeholder="Account">
+                            <template
+                            v-slot:prefix
+                            >
+                                <UserOutlined />
+                            </template>
+                        </a-input>
                        
                     </div>
 
                     <div class="item">
-                        <a-input size="large" placeholder="Password"/>
+                        <a-input size="large" placeholder="Password">
+                            <template
+                            v-slot:prefix
+                            >
+                                <LockOutlined />
+                            </template>
+                        </a-input>
+
                     </div>
 
                     <div class="item">
@@ -32,19 +45,47 @@
                 </a-tab-pane>
                 <a-tab-pane key="2" tab="Sign up" r>
                     <div class="item">
-                        <a-input size="large" placeholder="Account"/>
+                        <a-input size="large" 
+                        placeholder="Account"
+                        v-model:value="regForm.account"
+                        >
+                            <template
+                            v-slot:prefix
+                            >
+                                <UserOutlined />
+                            </template>
+                        </a-input>
+                    
                     </div>
 
                     <div class="item">
-                        <a-input size="large" placeholder="Password"/>
+                        <a-input size="large" 
+                        placeholder="Password"
+                        v-model:value="regForm.password"
+                        >
+                        <template
+                        v-slot:prefix
+                        >
+                            <LockOutlined />
+                        </template>
+                        </a-input>
                     </div>
 
                     <div class="item">
-                        <a-input size="large" placeholder="Invitation Code"/>
+                        <a-input size="large" placeholder="Invitation Code">
+                            <template
+                            v-slot:prefix
+                            >
+                                <MailOutlined />
+                            </template>
+                        </a-input>
                     </div>
 
                     <div class="item">
-                        <a-button size="large" type="primary">
+                        <a-button 
+                        @click="register" 
+                        size="large" 
+                        type="primary">
                             Sign up
                         </a-button>
                     </div>
@@ -55,8 +96,9 @@
     </div>
 </template>
 
-<script scr="./index.js"></script>
+<script src="./index.js"></script>
 
 <style lang="scss" scoped>
     @import './index.scss';
 </style>
+
