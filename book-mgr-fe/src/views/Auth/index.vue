@@ -12,7 +12,11 @@
             <a-tabs >
                 <a-tab-pane key="1" tab="Login">
                     <div class="item">
-                        <a-input size="large" placeholder="Account">
+                        <a-input 
+                        size="large" 
+                        placeholder="Account"
+                        v-model:value="loginForm.account"
+                        >
                             <template
                             v-slot:prefix
                             >
@@ -23,7 +27,11 @@
                     </div>
 
                     <div class="item">
-                        <a-input size="large" placeholder="Password">
+                        <a-input 
+                        size="large" 
+                        placeholder="Password"
+                        v-model:value="loginForm.password"
+                        >
                             <template
                             v-slot:prefix
                             >
@@ -38,7 +46,11 @@
                     </div>
 
                     <div class="item">
-                        <a-button size="large" type="primary">
+                        <a-button 
+                        size="large" 
+                        type="primary"
+                        @click="login"
+                        >
                             Login
                         </a-button>
                     </div>
@@ -72,7 +84,11 @@
                     </div>
 
                     <div class="item">
-                        <a-input size="large" placeholder="Invitation Code">
+                        <a-input 
+                        size="large" 
+                        placeholder="Invitation Code"
+                        v-model:value="regForm.inviteCode"
+                        >
                             <template
                             v-slot:prefix
                             >
