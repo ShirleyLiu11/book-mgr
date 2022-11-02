@@ -75,7 +75,7 @@ router.post('/register', async (ctx) => {
     //Response succeeded
     ctx.body = {
         code: 1,
-        msg: 'register succeed',
+        msg: 'Register succeed',
         data: res,
     };
     
@@ -103,7 +103,7 @@ router.post('/login', async (ctx) => {
     if (!one) {
         ctx.body = {
             code: 0,
-            msg: 'wrong account or password',
+            msg: 'Wrong account or password',
             data: null,
         };
 
@@ -117,7 +117,7 @@ router.post('/login', async (ctx) => {
     if (one.password === password) {
         ctx.body = {
             code: 1,
-            msg: 'login successful',
+            msg: 'Login successful',
             data: {
                 user,
                 token: jwt.sign(user, 'book-mgr'),
@@ -128,7 +128,7 @@ router.post('/login', async (ctx) => {
 
     ctx.body = {
         code: 0,
-        msg: 'wrong account or password',
+        msg: 'Wrong account or password',
         data: null,
     };
 });
