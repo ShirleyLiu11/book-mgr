@@ -1,5 +1,6 @@
 import { defineComponent, ref, onMounted } from 'vue';
 import { book } from '@/services';
+import { useRouter } from 'vue-router';
 import { message, Modal, Input } from 'ant-design-vue';
 import { result, formatTimestamp } from '@/helpers/utils';
 import AddOne from './AddOne/index.vue';
@@ -13,6 +14,8 @@ export default defineComponent({
     },
 
     setup() {
+        const router = useRouter();
+
         const columns = [
             {
                 title: 'Book Title',
@@ -161,14 +164,20 @@ export default defineComponent({
                 },
             });          
         };
-        //edit update book information
+        // show edit pop-up 
         const update = ( { record }) => {
             showUpdateModal.value = true;
               curEditBook.value = record;
         };
-
+        //renew information of list row
         const updateCurBook = (newData) => {
             Object.assign(curEditBook.value, newData);
+        };
+
+        // access book detail page
+        const toDetail = ({ record }) => {
+            router.push(`/books/${record._id}`);
+
         };
 
         return{
@@ -188,7 +197,8 @@ export default defineComponent({
             showUpdateModal,
             update,
             curEditBook,
-            updateCurBook
+            updateCurBook,
+            toDetail,
         };
     },
 

@@ -1,13 +1,23 @@
 const Router = require('@koa/router');
 const mongoose = require('mongoose');
-const Book = mongoose.model('Book');
 const { getBody } = require('../../helpers/utils/index');
-
 
 
 const BOOK_CONST = {
     IN: 'IN_COUNT',
     OUT: 'OUT_COUNT',
+};
+
+const Book = mongoose.model('Book');
+const InventoryLog = mongoose.model('InventoryLog');
+
+//find book
+const findBookOne = async (id) => {
+    const one = await Book.findOne({
+        _id: id,
+    }).exec();
+
+     return one;
 };
 
 const router = new Router({
@@ -64,6 +74,9 @@ router.get('/list', async (ctx) => {
 
     const list = await Book
         .find(query)
+        .sort({
+            _id: -1,
+        })
         .skip((page-1) * size)
         .limit(size)
         .exec();
@@ -110,9 +123,7 @@ router.post('/update/count', async (ctx) => {
 
     num = Number(num);
 
-    const book = await Book.findOne({
-       _id: id, 
-    }).exec();
+    const book = await findBookOne(id);
 
     if (!book) {
         ctx.body = {
@@ -141,6 +152,12 @@ router.post('/update/count', async (ctx) => {
     }
 
     const res = await book.save();
+    const log = new InventoryLog({
+        num: Math.abs(num),
+        type,
+    });
+
+    log.save();
 
     ctx.body = {
         data: res,
@@ -157,9 +174,7 @@ router.post('/update', async (ctx) => {
     } = ctx.request.body;
 
 
-    const one = await Book.findOne({
-        _id: id,
-    }).exec();
+    const one = await findBookOne(id);
 
     //didnt find book
     if (!one) {
@@ -186,6 +201,30 @@ router.post('/update', async (ctx) => {
         msg: 'Save successfully',
     };
 });
+//Book detail
+router.get('/detail/:id', async (ctx) => {
+    const {
+        id,
+    } = ctx.params;
+    //find book
+    const one = await findBookOne(id);
+
+    //didnt find book
+    if (!one) {
+        ctx.body = {
+            msg: 'No books found',
+            code: 0,
+        };
+        return;
+    }
+    ctx.body = {
+        msg: 'Access detail successfully',
+        data: one,
+        code: 1,
+    }
+
+});
+    
 
 
 

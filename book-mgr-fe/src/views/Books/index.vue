@@ -7,13 +7,13 @@
 
             <space-between>
                 <div class="search">
-                <a-input-search
-                placeholder="Search by title"
-                enter-button
-                v-model:value="keyword"
-                @search="onSearch"
-                />
-                <a v-if="isSearch" href="javascript:;" @click="backAll">Back</a>
+                    <a-input-search
+                        placeholder="Search by title"
+                        enter-button
+                        v-model:value="keyword"
+                        @search="onSearch"
+                    />
+                    <a v-if="isSearch" href="javascript:;" @click="backAll">Back</a>
                 </div>
 
                 <a-button @click="show = true">Add new one</a-button>
@@ -23,7 +23,9 @@
             <a-table 
                 :columns="columns" 
                 :data-source="list"
-                :pagination="false">
+                :pagination="false"
+                bordered
+                >
                 <template #publishDate="data">
                     {{ formatTimestamp(data.record.publishDate) }}   
                 </template>
@@ -33,6 +35,8 @@
                     <a href="javascript:;" @click="updateCount('OUT_COUNT', data.record)">Out</a>  
                 </template>
                 <template #actions="record">
+                    <a href="javascript:;" @click="toDetail(record)">Detail</a>
+                    &nbsp;
                     <a href="javascript:;" @click="update(record)">Edit</a>
                     &nbsp;
                     <a href="javascript:;" @click="remove(record)">Delete</a>
@@ -52,7 +56,8 @@
         </a-card>
         
         <add-one 
-            v-model:show="show"           
+            v-model:show="show" 
+                      
         />
         <update 
             v-model:show="showUpdateModal"   

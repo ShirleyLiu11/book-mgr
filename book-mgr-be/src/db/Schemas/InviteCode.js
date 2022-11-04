@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { getMate } = require('../helpers');
+const { getMeta, preSave } = require('../helpers');
 
 const InviteCodeSchema = new mongoose.Schema({
     //invite code
@@ -7,9 +7,10 @@ const InviteCodeSchema = new mongoose.Schema({
     //which account are use for
     user: String,
     
-    meta: getMate(),
+    meta: getMeta(),
 });
 
+InviteCodeSchema.pre('save', preSave);
 
 mongoose.model('InviteCode', InviteCodeSchema);
 
