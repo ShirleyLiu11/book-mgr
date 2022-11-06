@@ -2,6 +2,7 @@ const Router  = require('@koa/router');
 const mongoose = require('mongoose');
 const { getBody } = require('../../helpers/utils/index');
 const jwt = require('jsonwebtoken');
+const config = require('../../project.config');
 
 const User = mongoose.model('User');
 const InviteCode = mongoose.model('InviteCode');
@@ -111,6 +112,7 @@ router.post('/login', async (ctx) => {
     }
     const user = {
         account: one.account,
+        character: one.character,
         _id: one._id,
     };
 
@@ -120,7 +122,7 @@ router.post('/login', async (ctx) => {
             msg: 'Login successful',
             data: {
                 user,
-                token: jwt.sign(user, 'book-mgr'),
+                token: jwt.sign(user, config.JWT_SECRET),
             },
         };
         return;
