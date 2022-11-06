@@ -2,6 +2,7 @@ const { verify, getToken } = require('../token');
 const mongoose = require('mongoose');
 
 const Log = mongoose.model('Log');
+const LogResponse = mongoose.model('LogResponse');
 
 
 const logMiddleware = async (ctx, next) => {
@@ -22,6 +23,11 @@ const logMiddleware = async (ctx, next) => {
     const url = ctx.url;
     const method = ctx.method;
     const status = ctx.status;
+    let show = true;
+
+    if (url === '/log/delete') {
+        show = false;
+    }
 
 
     // console.log(url, payload);
@@ -37,6 +43,7 @@ const logMiddleware = async (ctx, next) => {
             responseBody = '';
         }
     }
+    const endTime = Date.now();
 
     const log  = new Log({
         user: {
@@ -44,18 +51,25 @@ const logMiddleware = async (ctx, next) => {
             id: payload.id,
         },
         request: {
-            url: url,
-            responseBody,
+            url,
             method,
             status,
         },
 
+        endTime,
+        startTime,
+        show,
+
     });
     
-    const endTime = Date.now();
+    log.save();
 
+    const LogRes = new LogResponse({
+        logId: log._id,
+        data: responseBody,
+    });
 
-    await log.save();
+    LogRes.save();
 
 
 };

@@ -17,7 +17,12 @@ router.get('/list', async (ctx) => {
     size = Number(size);
 
     const list = await Log
-        .find()
+        .find({
+            show: true,
+        })
+        .sort({
+            _id: -1,
+        })
         .skip((page-1) * size)
         .limit(size)
         .exec();
@@ -35,6 +40,34 @@ router.get('/list', async (ctx) => {
         msg: 'Get list successfully',
     };
 
+});
+
+router.post('/delete',  async (ctx) => {
+    const {
+        id,
+    } = ctx.request.body;
+
+    const one = await Log.findOne({
+        _id: id,
+    }).exec();
+
+    if (!one) {
+        ctx.body = {
+            data: {},
+            msg: 'Delete successfully',
+            code: 0,
+        };
+        return;
+    }
+
+    one.show = false;
+     
+    await one.save();
+    
+    ctx.body = {
+        code: 1,
+        msg: 'Delete successfully',
+    };
 });
 
 
