@@ -19,9 +19,22 @@
                 <a-form-item label="Publish Date">
                     <a-date-picker v-model:value="addForm.publishDate"/>
                 </a-form-item>
-                <a-form-item label="Category">
-                    <a-input v-model:value="addForm.classify" />
+                <!-- classifyList -->
+                <a-form-item label="Category"> 
+                    <a-select
+                        v-model:value="addForm.classify"
+                        >
+                        <a-select-option 
+                            v-for="item in store.bookClassify"
+                            :key="item._id"
+                            :value="item._id"
+                        >
+                            {{ item.title }}
+                        </a-select-option>
+                    </a-select>
                 </a-form-item>
+                
+
                 <a-form-item label="Count">
                     <a-input v-model:value="addForm.count" />
                 </a-form-item>

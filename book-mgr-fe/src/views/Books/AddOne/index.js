@@ -1,6 +1,7 @@
-import { defineComponent, reactive } from "vue";
+import { defineComponent, reactive, withCtx } from "vue";
 import { book } from '@/services';
 import { message } from 'ant-design-vue';
+import store from '@/store';
 import { clone, result } from '@/helpers/utils';
 
 
@@ -10,7 +11,7 @@ const defaultFormData = {
     author: '',
     publishDate: 0,
     classify: '',
-    count: 0,
+    count: '',
 };
 export default defineComponent({
     props: {
@@ -20,6 +21,11 @@ export default defineComponent({
         
         const addForm = reactive(clone(defaultFormData));
 
+        if (store.state.bookClassify.length) {
+            addForm.classify = store.state.bookClassify[0]._id;
+        }
+        
+
         const submit = async () => {
             const form = clone(addForm);
             form.publishDate = addForm.publishDate.valueOf();
@@ -28,6 +34,8 @@ export default defineComponent({
             result(res).success((d, { data }) => {
                 Object.assign(addForm, defaultFormData);
                 message.success(data.msg);
+
+                context.emit('getList');
                 
             });
         };
@@ -36,11 +44,13 @@ export default defineComponent({
             context.emit('update:show', false);
         };
 
+
         return {
             addForm,
             submit,
             props,
             close,
+            store: store.state,
         };
     },
 });

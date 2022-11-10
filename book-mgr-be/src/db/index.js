@@ -5,6 +5,9 @@ require('./Schemas/InventoryLog');
 require('./Schemas/Character');
 require('./Schemas/Log');
 require('./Schemas/LogResponse');
+require('./Schemas/ForgetPassword');
+require('./Schemas/BookClassify');
+
 
 
 

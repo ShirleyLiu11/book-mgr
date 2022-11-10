@@ -6,8 +6,8 @@
                 <div class="title">Library Management System</div>
             </div>
             <div class="right">
-                <div class="hello-msg">Hello, xx</div>
-                <div class="logout">Log Out</div>
+                <div class="hello-msg">Hello, {{ store.userInfo.account }}</div>
+                <div class="logout" @click="logout">Log Out</div>
             </div>
         </div>
         <div class="app-header-placeholder"></div>

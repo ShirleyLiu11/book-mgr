@@ -1,8 +1,12 @@
 import { defineComponent, reactive } from 'vue';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons-vue';
-import { auth } from '@/services';
+import { auth, resetPassword } from '@/services';
 import { result } from '@/helpers/utils';
-import { message } from 'ant-design-vue';
+import { getCharacterInfoById } from '@/helpers/character';
+import { message, Modal, Input } from 'ant-design-vue';
+import store from '@/store';
+import { useRouter } from 'vue-router';
+import { setToken } from '@/helpers/token';
 
 
 
@@ -13,12 +17,38 @@ export default defineComponent({
         MailOutlined,
       },
     setup() {
+        const router = useRouter();
+
         //register form related
         const regForm = reactive({
             account: '',
             password: '',
             inviteCode: '',
         });
+
+        //forget password
+        const forgetPassword = () => {
+            Modal.confirm({
+                title: 'Please enter the account to application.',
+                content: (
+                    <div>
+                        <Input class="__forget_password_account"/>
+                    </div>
+                ),
+                onOk: async () => {
+                    const el = document.querySelector('.__forget_password_account');
+
+                    let account = el.value;
+
+                    const res = await resetPassword.add(account);
+
+                    result(res).success(({ msg }) => {
+                        message.success(msg);
+                    });
+
+                },
+            });         
+        };
         //register logic
         const register =  async () => {
             if (regForm.account === '') {
@@ -67,8 +97,18 @@ export default defineComponent({
 
             const res = await auth.login(loginForm.account, loginForm.password);
 
-            result(res).success((data) => {
-                message.success(data.msg);
+            result(res).success(async({ msg, data: { user, token }}) => {
+                message.success(msg);
+
+                setToken(token);
+
+                await store.dispatch('getCharacterInfo');
+
+                store.commit('setUserInfo', user);
+
+                store.commit('setUserCharacter', getCharacterInfoById(user.character));
+
+                router.replace('/books');
             });
             
         };
@@ -81,6 +121,9 @@ export default defineComponent({
             //login related
             loginForm,
             login,
+
+            //forget password
+            forgetPassword,
         };
 
     },

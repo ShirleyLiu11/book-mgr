@@ -13,6 +13,8 @@ router.get('/list', async (ctx) => {
         size,
     } = ctx.query;
 
+    // console.log(page,size);
+
     page = Number(page);
     size = Number(size);
 

@@ -1,8 +1,9 @@
 import { defineComponent, ref, onMounted } from 'vue';
-import { book } from '@/services';
+import { book, bookClassify } from '@/services';
 import { useRouter } from 'vue-router';
 import { message, Modal, Input } from 'ant-design-vue';
 import { result, formatTimestamp } from '@/helpers/utils';
+import { getClassifyTitleById } from '@/helpers/book-classify';
 import AddOne from './AddOne/index.vue';
 import Update from './Update/index.vue';
 
@@ -13,7 +14,11 @@ export default defineComponent({
         Update,
     },
 
-    setup() {
+    props: {
+        simple: Boolean,
+    },
+
+    setup(props) {
         const router = useRouter();
 
         const columns = [
@@ -29,12 +34,7 @@ export default defineComponent({
                 title: 'Price',
                 dataIndex: 'price',
             },
-            {
-                title: 'In Stock',
-                slots: {
-                    customRender: 'count',
-                }
-            },
+            
             {
                 title: 'Publish Date',
                 dataIndex: 'publishDate',
@@ -44,17 +44,26 @@ export default defineComponent({
             },
             {
                 title: 'Category',
-                dataIndex: 'classify',
-            },
+                slots: {
+                    customRender: 'classify',
+                },
+            },  
             {
+                title: 'In Stock',
+                slots: {
+                    customRender: 'count',
+                }
+            },   
+        ];
+
+        if (!props.simple) {
+            columns.push({
                 title: 'Actions',
                 slots: {
                     customRender: 'actions',
                 }
-            },
-            
-            
-        ];
+            });
+        }
 
         const show = ref(false);
         const showUpdateModal = ref(false);
@@ -63,7 +72,7 @@ export default defineComponent({
         const curPage = ref(1);
         const keyword = ref ('');
         const isSearch  = ref(false);
-        const curEditBook = ref({});
+        const curEditBook = ref({});        
 
         //get book list
         const getList = async () => {
@@ -199,6 +208,9 @@ export default defineComponent({
             curEditBook,
             updateCurBook,
             toDetail,
+            getList,
+            getClassifyTitleById,
+            simple: props.simple,
         };
     },
 
