@@ -21,7 +21,7 @@ export default [
     },
     {
         title: 'Others',
-        onlyAdmin: false,
+        onlyAdmin: true,
         children: [
             {
                 title: 'Book Category Management',

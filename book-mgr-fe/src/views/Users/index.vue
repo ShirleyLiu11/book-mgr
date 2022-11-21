@@ -17,12 +17,12 @@
                 </div>
                 <div>
                     <a-button @click="showAddModal = true">Add User</a-button>
-                    &nbsp;
+                    <!-- &nbsp;
                     <a-upload
                         action="http://localhost:3000/upload/file"
                     >
                         <a-button @click="upload" type="primary">Upload Excel</a-button>
-                    </a-upload>                  
+                    </a-upload>                   -->
                 </div>    
             </space-between>
 

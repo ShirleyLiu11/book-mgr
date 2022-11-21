@@ -8,6 +8,15 @@ const { verify, getToken } = require('../../helpers/token');
 const User = mongoose.model('User');
 const Character = mongoose.model('Character');
 
+
+// const findUserOne = async (id) => {
+//     const one = await User.findOne({
+//         _id: id,
+//     }).exec();
+
+//      return one;
+// };
+
 const router = new Router({
     prefix: '/user',
 });
@@ -189,6 +198,8 @@ router.post('/update/character', async (ctx) => {
 
 
  });
+
+ 
     
  
 module.exports = router;

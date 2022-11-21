@@ -1,7 +1,17 @@
 const LOG_MAP = [
     ['/character/list', 'Get role list'],
     ['/log/list', 'Get log list'],
-    ['/user/info', 'Get own login information']
+    ['/user/info', 'Get own login information'],
+    ['/user/list', 'Get user list'],
+    ['/book/list', 'Get book list'],
+    ['/book-classify/list', 'Get book category list'],
+    ['/book/add', 'Add book'],
+    ['/book/update', 'Edit book information'],
+    ['/auth/login', 'Login'],
+    ['/auth/register', 'Sign in'],
+    ['/invite/list', 'Get invite list'],
+    ['/invite', 'Get invite code'],
+
 ];
 
 export const getLogInfoByPath = (path) => {

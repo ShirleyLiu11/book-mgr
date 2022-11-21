@@ -10,8 +10,10 @@ const BOOK_CONST = {
 
 const Book = mongoose.model('Book');
 const InventoryLog = mongoose.model('InventoryLog');
+const User = mongoose.model('User');
 
-//find book
+
+//find book 
 const findBookOne = async (id) => {
     const one = await Book.findOne({
         _id: id,
@@ -19,6 +21,8 @@ const findBookOne = async (id) => {
 
      return one;
 };
+
+
 
 const router = new Router({
     prefix: '/book',
@@ -152,10 +156,15 @@ router.post('/update/count', async (ctx) => {
     }
 
     const res = await book.save();
+
     const log = new InventoryLog({
         num: Math.abs(num),
         type,
+        title: book.name,
+        bookId: book._id,   
+        userId: user._id,    
     });
+    console.log(book._id);
 
     log.save();
 

@@ -2,6 +2,8 @@ import { defineComponent, onMounted, ref } from "vue";
 import { log } from '@/services';
 import { result, formatTimestamp } from "@/helpers/utils";
 import { getLogInfoByPath } from '@/helpers/log';
+import { message } from 'ant-design-vue';
+
 
 
 export default defineComponent({
@@ -73,6 +75,11 @@ export default defineComponent({
 
         const remove = async ({ _id }) => {
             const res = await log.remove(_id);
+
+            result(res).success(({ msg }) => {
+                message.success(msg);
+            getList();
+            });
         };
 
         return {

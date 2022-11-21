@@ -2,11 +2,16 @@ import { defineComponent, onMounted, ref} from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { result, formatTimestamp } from "@/helpers/utils";
 import { book, inventoryLog } from '@/services';
+import { getClassifyTitleById } from '@/helpers/book-classify';
 import { CheckOutlined } from '@ant-design/icons-vue';
 import { message } from 'ant-design-vue';
 import Update from '@/views/Books/Update/index.vue';
 
 const columns = [
+    {
+        title: 'Title',
+        dataIndex: 'title',
+    },
     {
         title: 'Number',
         dataIndex: 'num',
@@ -53,7 +58,7 @@ export default defineComponent({
                 10,
             );
 
-            result(res).success(({ data: { list,total } }) => {
+            result(res).success(({ data: { list, total } }) => {
                 log.value = list;
                 logTotal.value = total;
             });
@@ -82,7 +87,6 @@ export default defineComponent({
         //switch log  page
         const setLogPage = (page) => {
             logCurPage.value = page;
-
             getInventoryLog();
         }
         //filter log
@@ -105,6 +109,7 @@ export default defineComponent({
             logFilter,
             curLogType,
             logCurPage,
+            getClassifyTitleById,
         };
     },
     

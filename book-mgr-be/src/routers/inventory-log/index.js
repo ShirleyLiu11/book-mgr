@@ -21,6 +21,7 @@ router.get('/list', async (ctx) => {
 
     size = Number(size);
     page = Number(page);
+    
 
     const list = await InventoryLog
         .find({

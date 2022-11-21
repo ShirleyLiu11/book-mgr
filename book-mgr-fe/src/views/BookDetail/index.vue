@@ -24,7 +24,7 @@
                     </div>
                     <div class="item">
                         <div class="title">Category</div>
-                        <div class="content">{{ d.classify }}</div>
+                        <div class="content">{{ getClassifyTitleById(d.classify) }}</div>
                     </div>
                 </div>
                 <div class="items">
